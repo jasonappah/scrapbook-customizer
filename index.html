@@ -5,9 +5,9 @@
     <title>Scrapbook Customizer</title>
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code&family=Inter:wght@400;800&display=swap" rel="stylesheet">
 
-    <script src="node_modules/codemirror/lib/codemirror.js"></script>
-    <link rel="stylesheet" href="node_modules/codemirror/lib/codemirror.css">
-    <script src="node_modules/codemirror/mode/css/css.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.55.0/codemirror.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.55.0/codemirror.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.55.0/mode/css/css.js"></script>
 </head>
 
 <body style="margin: 0;padding: 0;">
@@ -154,7 +154,7 @@
 
     <script>
         var scrappyuser = "jasonaa"
-        var url = "http://scrapbook.hackclub.com/" + scrappyuser
+        var url = "https://scrapbook.hackclub.com/" + scrappyuser
         var frame = document.getElementById('iframe');
         var x = new XMLHttpRequest();
         var doc, html;
@@ -196,7 +196,7 @@
                 scrappyuser = document.getElementById("scrappyuser").value
             }
 
-            url = "http://scrapbook.hackclub.com/" + encodeURIComponent(scrappyuser)
+            url = "http://scrapbook.hackclub.com/" + scrappyuser
                 // The below code was for a CORS workaround that I no longer need
                 // x = new XMLHttpRequest();
                 // x.open("GET ", url, false);
