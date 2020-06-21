@@ -14,12 +14,17 @@
     <style>
         body {
             height: 100vh;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        h3 {
+            margin: unset;
         }
         
         .container {
             display: inline-flex;
             width: 100vw;
-            height: 100vh;
+            height: 94vh;
         }
         
         .col {
@@ -32,10 +37,11 @@
             resize: none;
             overflow: auto;
             width: 50vw;
-            height: 100vh;
+            height: 94vh;
             padding: 0%;
             margin: 0%;
             outline: none;
+            border-style: none;
         }
         
         .header {
@@ -55,54 +61,157 @@
             outline: none;
             border: 0%;
             width: 50vw;
-            height: 100vh;
+            height: 94vh;
+            padding: 0%;
+            margin: 0%;
+            border-style: none;
+        }
+        
+        .mainhead {
+            width: 50vw;
+            background-color: #00c1fb;
+            color: #1d201d;
+            height: 6vh;
+            line-height: 6vh;
+            z-index: 1;
+        }
+        
+        .sechead1 {
+            width: 40vw;
+            height: 6vh;
+            background-color: red;
+            padding: 0%;
+            margin: 0%;
+            line-height: 6vh;
+            z-index: 2;
+        }
+        
+        .sechead2 {
+            background-color: #00c1fb;
+            width: 10vw;
+            height: 6vh;
+            padding: 0%;
+            margin: 0%;
+            line-height: 6vh;
+            text-align: center;
+            cursor: pointer;
+        }
+        
+        .sechead2:hover {
+            background-color: #0093c4;
+        }
+        
+        .head-test {
+            display: inline-flex;
             padding: 0%;
             margin: 0%;
         }
+        
+        #scrappyuser {
+            resize: none;
+            overflow: none;
+            padding: 0%;
+            margin: 0%;
+            outline: none;
+            width: 100%;
+            height: 100%;
+            border: 0%;
+            border-style: none;
+            font-family: 'Inter', sans-serif;
+            line-height: 6vh;
+            font-size: small;
+            padding: 0% 0% 0% 1vh;
+        }
+        
+        .mainhead h3 {
+            padding: 0% 0% 0% 1vh;
+        }
     </style>
 
-    <div class="container">
+    <div class="head-test">
+        <div class="mainhead">
+            <h3>Scrapbook Customizer</h3>
+        </div>
 
+        <div class="sechead1">
+            <textarea id="scrappyuser" rows="1" placeholder="Enter your scrappy username here. (the part after scrapbook.hackclub.com/)"></textarea>
+        </div>
+        <div class="sechead2" onclick="newUrl()">
+            <h3>Go</h3>
+        </div>
+    </div>
+
+    <div class="container">
         <div class="left col" id="scrapbookspace">
-            <!-- <iframe id="iframe" src="http://scrapbook.hackclub.com/jasonaa"></iframe> -->
             <iframe id="iframe"></iframe>
         </div>
 
         <div class="right col">
-            <textarea class="lang-css" id="editor" placeholder="Enter CSS here..."></textarea>
+            <textarea id="editor" placeholder="Enter CSS here..."></textarea>
         </div>
 
     </div>
 
     <script>
-        var url = "scrapbook.hackclub.com/jasonaa"
-            // var space = document.getElementById('scrapbookspace');
+        var scrappyuser = "jasonaa"
+        var url = "http://scrapbook.hackclub.com/" + scrappyuser
         var frame = document.getElementById('iframe');
-        var newurl = encodeURIComponent(url)
-        var cors_api_url = 'https://cors-anywhere.herokuapp.com/';
-
         var x = new XMLHttpRequest();
-        x.open("GET", cors_api_url + url, false);
-        x.send();
-
-        var html = x.response
-        frame.srcdoc = html
+        var doc, html;
+        newUrl()
 
         var editor = document.getElementById('editor');
         editor.addEventListener("input", editPage);
 
         var myCodeMirror = CodeMirror.fromTextArea(editor, {
-            value: "/* Put your CSS here and see it previewed on the left! */",
             mode: "css",
+            value: "/* Put your CSS here and see it previewed on the left! */",
             lineWrapping: true,
             lineNumbers: true
         });
-
         myCodeMirror.on("change", editPage)
+
+
+        frame.addEventListener("load", function() {
+            doc = frame.contentDocument;
+            html = doc.body.innerHTML;
+        })
+
+        // Execute a function when the user releases a key on the keyboard
+        document.getElementById("scrappyuser").addEventListener("keyup", function(event) {
+            // Number 13 is the "Enter " key on the keyboard
+            if (event.keyCode === 13) {
+                // Cancel the default action, if needed
+                event.preventDefault();
+                document.getElementById("scrappyuser").value = document.getElementById("scrappyuser").value.trim()
+                newUrl();
+            }
+        });
+
+        function newUrl() {
+            console.log("loading scrapbook")
+            if (document.getElementById("scrappyuser").value == "") {
+                scrappyuser = "jasonaa"
+            } else {
+                scrappyuser = document.getElementById("scrappyuser").value
+            }
+
+            url = "http://scrapbook.hackclub.com/" + encodeURIComponent(scrappyuser)
+                // The below code was for a CORS workaround that I no longer need
+                // x = new XMLHttpRequest();
+                // x.open("GET ", url, false);
+                // x.send();
+                // var html = x.response
+                // frame.srcdoc = html
+            frame.src = url
+
+        }
 
         function editPage() {
             css = myCodeMirror.getValue() || editor.value
-            frame.srcdoc = `${html}<style>${css}</style>`
+                // also a part of that CORS hack
+                // frame.srcdoc = `${html}<style>${css}</style>`
+            doc.body.innerHTML = html + `<style>${css}</style>`;
         }
     </script>
 </body>
