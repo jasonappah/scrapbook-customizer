@@ -2,11 +2,110 @@
 <html lang="en">
 
 <head>
+    <title>Scrapbook Customizer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code&family=Inter:wght@400;800&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
+    <script src="codemirror-5.54.0/lib/codemirror.js"></script>
+    <link rel="stylesheet" href="codemirror-5.54.0/lib/codemirror.css">
+    <script src="codemirror-5.54.0/mode/css/css.js"></script>
 </head>
 
-<body>
+<body style="margin: 0;padding: 0;">
+    <style>
+        body {
+            height: 100vh;
+        }
+        
+        .container {
+            display: inline-flex;
+            width: 100vw;
+            height: 100vh;
+        }
+        
+        .col {
+            width: 50vw;
+        }
+        
+        #editor,
+        .CodeMirror {
+            font-family: 'Fira Code', monospace;
+            resize: none;
+            overflow: auto;
+            width: 50vw;
+            height: 100vh;
+            padding: 0%;
+            margin: 0%;
+            outline: none;
+        }
+        
+        .header {
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .left {
+            background-color: green;
+        }
+        
+        .right {
+            background-color: red;
+        }
+        
+        #iframe {
+            outline: none;
+            border: 0%;
+            width: 50vw;
+            height: 100vh;
+            padding: 0%;
+            margin: 0%;
+        }
+    </style>
 
+    <div class="container">
+
+        <div class="left col" id="scrapbookspace">
+            <!-- <iframe id="iframe" src="http://scrapbook.hackclub.com/jasonaa"></iframe> -->
+            <iframe id="iframe"></iframe>
+        </div>
+
+        <div class="right col">
+            <textarea class="lang-css" id="editor" placeholder="Enter CSS here..."></textarea>
+        </div>
+
+    </div>
+
+    <script>
+        var url = "scrapbook.hackclub.com/jasonaa"
+            // var space = document.getElementById('scrapbookspace');
+        var frame = document.getElementById('iframe');
+        var newurl = encodeURIComponent(url)
+        var cors_api_url = 'https://cors-anywhere.herokuapp.com/';
+
+        var x = new XMLHttpRequest();
+        x.open("GET", cors_api_url + url, false);
+        x.send();
+
+        var html = x.response
+        frame.srcdoc = html
+
+        var editor = document.getElementById('editor');
+        editor.addEventListener("input", editPage);
+
+        var myCodeMirror = CodeMirror.fromTextArea(editor, {
+            value: "/* Put your CSS here and see it previewed on the left! */",
+            mode: "css",
+            lineWrapping: true,
+            lineNumbers: true
+        });
+
+        myCodeMirror.on("change", editPage)
+
+        function editPage() {
+            css = myCodeMirror.getValue() || editor.value
+            frame.srcdoc = `${html}<style>${css}</style>`
+        }
+    </script>
 </body>
 
 </html>
