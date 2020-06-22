@@ -10,11 +10,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.55.0/mode/css/css.js"></script>
 </head>
 
-<body style="margin: 0;padding: 0;">
+<body>
     <style>
         body {
             height: 100vh;
             font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
         }
         
         h3 {
@@ -50,11 +52,11 @@
         }
         
         .left {
-            background-color: green;
+            background-color: #0093c4;
         }
         
         .right {
-            background-color: red;
+            background-color: #00c1fb;
         }
         
         #iframe {
@@ -101,7 +103,7 @@
             background-color: #0093c4;
         }
         
-        .head-test {
+        .top {
             display: inline-flex;
             padding: 0%;
             margin: 0%;
@@ -121,6 +123,7 @@
             line-height: 6vh;
             font-size: small;
             padding: 0% 0% 0% 1vh;
+            background-color: aliceblue;
         }
         
         .mainhead h3 {
@@ -128,13 +131,13 @@
         }
     </style>
 
-    <div class="head-test">
+    <div class="top">
         <div class="mainhead">
             <h3>Scrapbook Customizer</h3>
         </div>
 
         <div class="sechead1">
-            <textarea id="scrappyuser" rows="1" placeholder="Enter your scrappy username here. (the part after scrapbook.hackclub.com/)"></textarea>
+            <textarea id="scrappyuser" rows="1" placeholder="Enter your Scrappy username here! (the part after scrapbook.hackclub.com/)"></textarea>
         </div>
         <div class="sechead2" onclick="newUrl()">
             <h3>Go</h3>
