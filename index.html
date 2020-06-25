@@ -180,6 +180,13 @@
             html = doc.body.innerHTML;
         })
 
+        try {
+            editor.value = localStorage.getItem("customCSS");
+            myCodeMirror.getDoc().setValue(localStorage.getItem("customCSS"))
+            console.log("Restored stored CSS")
+        } finally {
+            console.log("No stored CSS")
+        }
         // Execute a function when the user releases a key on the keyboard
         document.getElementById("scrappyuser").addEventListener("keyup", function(event) {
             // Number 13 is the "Enter " key on the keyboard
@@ -200,20 +207,16 @@
             }
 
             url = "https://scrapbook.hackclub.com/" + scrappyuser
-                // The below code was for a CORS workaround that I no longer need
-                // x = new XMLHttpRequest();
-                // x.open("GET ", url, false);
-                // x.send();
-                // var html = x.response
-                // frame.srcdoc = html
             frame.src = url
 
         }
 
         function editPage() {
             css = myCodeMirror.getValue() || editor.value
-                // also a part of that CORS hack
-                // frame.srcdoc = `${html}<style>${css}</style>`
+            if (typeof(Storage) !== "undefined") {
+                // Code for localStorage/sessionStorage.
+                localStorage.setItem("customCSS", css);
+            }
             doc.body.innerHTML = html + `<style>${css}</style>`;
         }
     </script>
