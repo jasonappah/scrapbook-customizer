@@ -195,7 +195,7 @@
         // Execute a function when the user releases a key on the keyboard
         document.getElementById("scrappyuser").addEventListener("keyup", function(event) {
             // Number 13 is the "Enter " key on the keyboard
-            if (event.keyCode === 13) {
+            if (event.keyCode == 13) {
                 // Cancel the default action, if needed
                 event.preventDefault();
                 document.getElementById("scrappyuser").value = document.getElementById("scrappyuser").value.trim()
@@ -210,7 +210,6 @@
             } else {
                 scrappyuser = document.getElementById("scrappyuser").value
             }
-
             url = "https://scrapbook.hackclub.com/" + scrappyuser
             frame.src = url
 
