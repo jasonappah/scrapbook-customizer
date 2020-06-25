@@ -183,6 +183,7 @@
         try {
             editor.value = localStorage.getItem("customCSS");
             myCodeMirror.getDoc().setValue(localStorage.getItem("customCSS"))
+            editPage(true)
             console.log("Restored stored CSS")
         } finally {
             console.log("No stored CSS")
@@ -211,11 +212,13 @@
 
         }
 
-        function editPage() {
+        function editPage(firstLoad = false) {
             css = myCodeMirror.getValue() || editor.value
-            if (typeof(Storage) !== "undefined") {
-                // Code for localStorage/sessionStorage.
-                localStorage.setItem("customCSS", css);
+            if (!firstLoad) {
+                if (typeof(Storage) !== "undefined") {
+                    // Code for localStorage/sessionStorage.
+                    localStorage.setItem("customCSS", css);
+                }
             }
             doc.body.innerHTML = html + `<style>${css}</style>`;
         }
