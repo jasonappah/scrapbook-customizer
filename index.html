@@ -184,14 +184,6 @@
             html = doc.body.innerHTML;
         })
 
-        try {
-            editor.value = localStorage.getItem("customCSS");
-            myCodeMirror.getDoc().setValue(localStorage.getItem("customCSS"))
-            editPage(true)
-            console.log("Restored stored CSS")
-        } finally {
-            console.log("No stored CSS")
-        }
         // Execute a function when the user releases a key on the keyboard
         document.getElementById("scrappyuser").addEventListener("keyup", function(event) {
             // Number 13 is the "Enter " key on the keyboard
@@ -200,8 +192,19 @@
                 event.preventDefault();
                 document.getElementById("scrappyuser").value = document.getElementById("scrappyuser").value.trim()
                 newUrl();
+                console.log("pressed enter")
             }
         });
+
+        try {
+            editor.value = localStorage.getItem("customCSS");
+            myCodeMirror.getDoc().setValue(localStorage.getItem("customCSS"))
+            console.log("Restored stored CSS")
+            editPage(true)
+        } finally {
+            console.log("No stored CSS")
+        }
+
 
         function newUrl() {
             console.log("loading scrapbook")
