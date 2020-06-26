@@ -23,8 +23,16 @@ module.exports = (req, res) => {
                 code: code,
             })
             .then(function(response) {
-                token = response.data["access_token"]
-                console.log(response.data)
+                data = response.data.split("/=|&/g")
+                i = data.indexOf("access_token")
+                if (i > -1) {
+                    token = data[i + 1]
+                } else {
+                    token = undefined
+                }
+                console.log(data)
+                console.log(i)
+                console.log(token)
 
                 // res.redirect(200, `${host}/?token=${token}`);
                 res.status(200).send(`<head><meta http-equiv="Refresh" content="0; URL=${extra}/?token=${token}"></head>`)
