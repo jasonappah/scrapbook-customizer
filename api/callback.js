@@ -12,9 +12,9 @@ module.exports = (req, res) => {
     // console.log(req.query)
     const code = req.query["code"]
     if (process.env.ENV == "PROD") {
-        host = req.host + "/scrapbook"
+        const host = req.host + "/scrapbook"
     } else {
-        host = req.host
+        const host = req.host
     }
     console.log(`reqhost ${req.host}`)
     if (code != undefined) {
