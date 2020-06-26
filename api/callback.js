@@ -7,16 +7,17 @@ module.exports = (req, res) => {
     const url = "https://github.com/login/oauth/access_token"
     const CLIENT_ID = process.env.GH_CLIENT_ID
     const CLIENT_SECRET = process.env.GH_CLIENT_SECRET
+    var host = ""
     axios.defaults.headers.post['Content-Type'] = 'application/json';
     // // this has the url params
     // console.log(req.query)
     const code = req.query["code"]
     if (process.env.ENV == "PROD") {
-        const host = req.headers.host + "/scrapbook"
+        host = req.headers.host + "/scrapbook"
     } else {
-        const host = req.headers.host
+        host = req.headers.host
     }
-    console.log(`reqheadhost ${req.headers.host}`)
+    console.log(`reqheadorigin ${req.headers.host}`)
     if (code != undefined) {
         // means github has given us the code to generate an access token with
         axios.post(url, {
