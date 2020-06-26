@@ -40,7 +40,7 @@ module.exports = (req, res) => {
     } else {
         // if we get here, we didn't have any other random URL params, or the code that we need to generate the access token, so we need to get github to give it to us.
         // res.redirect(200, `https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&scope=gist&redirect_uri=${encodeURIComponent(host)}`);
-        res.status(200).send(`<head><meta http-equiv="Refresh" content="0; URL=https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&scope=gist&redirect_uri=${encodeURIComponent(host)}"></head>`)
+        res.status(200).send(`<head><meta http-equiv="Refresh" content="0; URL=https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&scope=gist&redirect_uri=${encodeURIComponent(host+"/api/callback")}"></head>`)
     }
 
     // // this has any data that was POSTed
