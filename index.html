@@ -74,17 +74,14 @@
         }
         
         .mainhead {
-            width: 50vw;
-            background-color: #00c1fb;
+            width: 25vw;
             color: #1d201d;
-            height: 6vh;
             line-height: 6vh;
             z-index: 1;
         }
         
         .sechead1 {
-            width: 43vw;
-            height: 6vh;
+            width: 58vw;
             background-color: red;
             padding: 0%;
             margin: 0%;
@@ -93,9 +90,7 @@
         }
         
         .sechead2 {
-            background-color: #00c1fb;
             width: 7vw;
-            height: 6vh;
             padding: 0%;
             margin: 0%;
             line-height: 6vh;
@@ -103,7 +98,28 @@
             cursor: pointer;
         }
         
-        .sechead2:hover {
+        .sechead3 {
+            width: 10vw;
+            padding: 0%;
+            line-height: 6vh;
+            text-align: center;
+            cursor: pointer;
+            outline-color: #0093c44f;
+            outline-style: solid;
+            outline-width: 1px;
+        }
+        
+        .head {
+            background-color: #00c1fb;
+            height: 6vh;
+        }
+        
+        .sechead3>h5 {
+            margin: 0;
+        }
+        
+        .sechead2:hover,
+        .sechead3:hover {
             background-color: #0093c4;
         }
         
@@ -133,18 +149,126 @@
         .mainhead h3 {
             padding: 0% 0% 0% 1vh;
         }
+        /* The Modal (background) */
+        
+        .modal {
+            display: none;
+            /* Hidden by default */
+            position: fixed;
+            /* Stay in place */
+            z-index: 1;
+            /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%;
+            /* Full width */
+            height: 100%;
+            /* Full height */
+            overflow: auto;
+            /* Enable scroll if needed */
+            background-color: rgb(0, 0, 0);
+            /* Fallback color */
+            background-color: rgba(0, 0, 0, 0.4);
+            /* Black w/ opacity */
+            -webkit-animation-name: fadeIn;
+            /* Fade in the background */
+            -webkit-animation-duration: 0.4s;
+            animation-name: fadeIn;
+            animation-duration: 0.4s
+        }
+        /* Modal Content */
+        
+        .modal-content {
+            position: fixed;
+            bottom: 0;
+            background-color: #fefefe;
+            width: 100%;
+            -webkit-animation-name: slideIn;
+            -webkit-animation-duration: 0.4s;
+            animation-name: slideIn;
+            animation-duration: 0.4s
+        }
+        /* The Close Button */
+        
+        .close {
+            color: white;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        .modal-header {
+            padding: 2px 16px;
+            background-color: #5cb85c;
+            color: white;
+        }
+        
+        .modal-body {
+            padding: 2px 16px;
+        }
+        /* Add Animation */
+        
+        @-webkit-keyframes slideIn {
+            from {
+                bottom: -300px;
+                opacity: 0
+            }
+            to {
+                bottom: 0;
+                opacity: 1
+            }
+        }
+        
+        @keyframes slideIn {
+            from {
+                bottom: -300px;
+                opacity: 0
+            }
+            to {
+                bottom: 0;
+                opacity: 1
+            }
+        }
+        
+        @-webkit-keyframes fadeIn {
+            from {
+                opacity: 0
+            }
+            to {
+                opacity: 1
+            }
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0
+            }
+            to {
+                opacity: 1
+            }
+        }
     </style>
 
     <div class="top">
-        <div class="mainhead">
+        <div class="head mainhead">
             <h3>Scrapbook Customizer</h3>
         </div>
 
-        <div class="sechead1">
+        <div class="head sechead1">
             <textarea id="scrappyuser" rows="1" placeholder="Enter your Scrappy username here! (the part after scrapbook.hackclub.com/)"></textarea>
         </div>
-        <div class="sechead2" onclick="newUrl()">
+        <div class="head sechead2" onclick="newUrl()">
             <h3>Go</h3>
+        </div>
+        <div class="head sechead3" onclick="gistButton()">
+            <h5>Add to Gist</h5>
         </div>
     </div>
 
@@ -159,14 +283,30 @@
 
     </div>
 
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close">&times;</span>
+                <h2 id="m-head-content">Modal Header</h2>
+            </div>
+            <div class="modal-body">
+                <p id="m-body-content">Some text in the Modal Body</p>
+            </div>
+        </div>
+
+    </div>
+
     <script>
         var scrappyuser = "jasonaa"
         var url = "https://scrapbook.hackclub.com/" + scrappyuser
         var frame = document.getElementById('iframe');
-        var x = new XMLHttpRequest();
-        var doc, html;
+        var doc, html, gistUrl;
+        var token = ""
+        var modal = document.getElementById("myModal");
         newUrl()
-
         var editor = document.getElementById('editor');
         editor.addEventListener("input", editPage);
 
@@ -204,7 +344,90 @@
         } finally {
             console.log("No stored CSS")
         }
+        authGitHub()
 
+        // function gistButton() {
+        //     if (token != "") {
+        //         makeGist()
+        //     } else {
+        //         authGitHub(true)
+        //     }
+        // }
+
+        function gistButton() {
+            document.getElementById('m-head-content').innerText = "Uh oh!"
+            document.getElementById('m-body-content').innerText = `This feature hasn't been implemented yet. Coming soon!`
+            modal.style.display = "block"
+
+            // When the user clicks on <span> (x), close the modal
+            document.getElementsByClassName("close")[0].onclick = function() {
+                modal.style.display = "none";
+            }
+
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+
+        function authGitHub(force = false) {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('token')) {
+                token = urlParams.get('token')
+                makeGist()
+            } else if (force) {
+                window.location.href = window.location.host + "/callback"
+            }
+        }
+
+        function makeGist() {
+            var url = "https://api.github.com/gists"
+            files = {
+                "style.css": getCSS()
+            }
+            var xhr2 = new XMLHttpRequest();
+            xhr2.open("POST", url, true);
+            xhr2.setRequestHeader('Content-Type', 'application/json');
+            xhr2.setRequestHeader('Authorization', `token ${token}`);
+            xhr2.send(JSON.stringify({
+                files: files,
+                public: true,
+                description: "CSS uploaded by scrapbook.hackclub.com/customizer"
+            }));
+            xhr2.onload = function() {
+                // Request finished. Do processing here.
+                try {
+                    gistUrl = this.response["files"]["style.css"]["raw_url"]
+                } catch {
+                    gistUrl = ""
+                }
+                // Get the modal
+                var modal = document.getElementById("myModal");
+                if (gistUrl == "") {
+                    document.getElementById('m-head-content').innerText = "Uh oh!"
+                    document.getElementById('m-body-content').innerText = `We were unable to create the gist. Response: ${this.response}`
+                } else {
+                    document.getElementById('m-head-content').innerText = "Successfully created gist"
+                    document.getElementById('m-body-content').innerText = `The gist URL is <a href="${gistUrl}">${gistUrl}</a>!`
+                }
+                modal.style.display = "block"
+
+                // When the user clicks on <span> (x), close the modal
+                document.getElementsByClassName("close")[0].onclick = function() {
+                    modal.style.display = "none";
+                }
+
+                // When the user clicks anywhere outside of the modal, close it
+                window.onclick = function(event) {
+                    if (event.target == modal) {
+                        modal.style.display = "none";
+                    }
+                }
+            };
+
+        }
 
         function newUrl() {
             console.log("loading scrapbook")
@@ -218,8 +441,12 @@
 
         }
 
+        function getCSS() {
+            return myCodeMirror.getValue() || editor.value
+        }
+
         function editPage(firstLoad = false) {
-            css = myCodeMirror.getValue() || editor.value
+            css = getCSS()
             if (!firstLoad) {
                 if (typeof(Storage) !== "undefined") {
                     // Code for localStorage/sessionStorage.
