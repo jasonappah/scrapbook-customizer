@@ -24,12 +24,12 @@ module.exports = (req, res) => {
             })
             .then(function(response) {
                 data = response.data.split("&")
-                var tmp, i, token
-                for (var idx in data) {
+                for (var idx of data) {
+                    console.log(idx)
                     if (idx.startsWith("access_token")) {
-                        i = data.indexOf(idx)
-                        tmp = idx.split("=")
-                        token = tmp[1]
+                        var i = data.indexOf(idx)
+                        var tmp = idx.split("=")
+                        var token = tmp[1]
                     }
                 }
                 // i = data.indexOf("access_token")
@@ -40,6 +40,7 @@ module.exports = (req, res) => {
                 // }
                 console.log(data)
                 console.log(i)
+                console.log(tmp)
                 console.log(token)
 
                 // res.redirect(200, `${host}/?token=${token}`);
