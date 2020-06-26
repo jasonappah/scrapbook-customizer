@@ -346,31 +346,33 @@
         }
         authGitHub()
 
-        // function gistButton() {
-        //     if (token != "") {
-        //         makeGist()
-        //     } else {
-        //         authGitHub(true)
-        //     }
-        // }
-
         function gistButton() {
-            document.getElementById('m-head-content').innerText = "Uh oh!"
-            document.getElementById('m-body-content').innerText = `This feature hasn't been implemented yet. Coming soon!`
-            modal.style.display = "block"
-
-            // When the user clicks on <span> (x), close the modal
-            document.getElementsByClassName("close")[0].onclick = function() {
-                modal.style.display = "none";
-            }
-
-            // When the user clicks anywhere outside of the modal, close it
-            window.onclick = function(event) {
-                if (event.target == modal) {
-                    modal.style.display = "none";
-                }
+            if (token != "") {
+                console.log("makeGist")
+                makeGist()
+            } else {
+                console.log("authGitHub")
+                authGitHub(true)
             }
         }
+
+        // function gistButton() {
+        //     document.getElementById('m-head-content').innerText = "Uh oh!"
+        //     document.getElementById('m-body-content').innerText = `This feature hasn't been implemented yet. Coming soon!`
+        //     modal.style.display = "block"
+
+        //     // When the user clicks on <span> (x), close the modal
+        //     document.getElementsByClassName("close")[0].onclick = function() {
+        //         modal.style.display = "none";
+        //     }
+
+        //     // When the user clicks anywhere outside of the modal, close it
+        //     window.onclick = function(event) {
+        //         if (event.target == modal) {
+        //             modal.style.display = "none";
+        //         }
+        //     }
+        // }
 
         function authGitHub(force = false) {
             const urlParams = new URLSearchParams(window.location.search);
@@ -378,7 +380,25 @@
                 token = urlParams.get('token')
                 makeGist()
             } else if (force) {
-                window.location.href = window.location.host + "/callback"
+                window.location.href = window.location.host + "/api/callback"
+            }
+
+            if (urlParams.has('error')) {
+                document.getElementById('m-head-content').innerText = "Something went wrong!"
+                document.getElementById('m-body-content').innerText = error
+                modal.style.display = "block"
+
+                // When the user clicks on <span> (x), close the modal
+                document.getElementsByClassName("close")[0].onclick = function() {
+                    modal.style.display = "none";
+                }
+
+                // When the user clicks anywhere outside of the modal, close it
+                window.onclick = function(event) {
+                    if (event.target == modal) {
+                        modal.style.display = "none";
+                    }
+                }
             }
         }
 
@@ -390,7 +410,11 @@
             var xhr2 = new XMLHttpRequest();
             xhr2.open("POST", url, true);
             xhr2.setRequestHeader('Content-Type', 'application/json');
-            xhr2.setRequestHeader('Authorization', `token ${token}`);
+            xhr2.setRequestHeader('Authorization', `
+                token $ {
+                    token
+                }
+                `);
             xhr2.send(JSON.stringify({
                 files: files,
                 public: true,
@@ -404,7 +428,6 @@
                     gistUrl = ""
                 }
                 // Get the modal
-                var modal = document.getElementById("myModal");
                 if (gistUrl == "") {
                     document.getElementById('m-head-content').innerText = "Uh oh!"
                     document.getElementById('m-body-content').innerText = `We were unable to create the gist. Response: ${this.response}`
