@@ -11,6 +11,11 @@ module.exports = (req, res) => {
     // // this has the url params
     // console.log(req.query)
     const code = req.query["code"]
+    if (process.env.ENV == "PROD") {
+        host = req.host + "/scrapbook"
+    } else {
+        host = req.host
+    }
     if (code != undefined) {
         // means github has given us the code to generate an access token with
         axios.post(url, {
@@ -20,17 +25,17 @@ module.exports = (req, res) => {
             })
             .then(function(response) {
                 token = response["access_token"]
-                res.redirect(200, `${req.host}/?token=${token}`);
+                res.redirect(200, `${host}/?token=${token}`);
             })
             .catch(function(error) {
-                res.redirect(200, `${req.host}/?error=${encodeURIComponent(error)}`);
+                res.redirect(200, `${host}/?error=${encodeURIComponent(error)}`);
             });
     } else if (length(req.query) > 0) {
         // probably means github gave an error
-        res.redirect(200, `${req.host}/?error=${encodeURIComponent(req.query)}`);
+        res.redirect(200, `${host}/?error=${encodeURIComponent(req.query)}`);
     } else {
         // if we get here, we didn't have any other random URL params, or the code that we need to generate the access token, so we need to get github to give it to us.
-        res.redirect(200, `https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&scope=gist&redirect_uri=${encodeURIComponent(req.host)}`);
+        res.redirect(200, `https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&scope=gist&redirect_uri=${encodeURIComponent(host)}`);
     }
 
     // // this has any data that was POSTed
