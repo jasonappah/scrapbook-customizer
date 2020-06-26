@@ -12,11 +12,11 @@ module.exports = (req, res) => {
     // console.log(req.query)
     const code = req.query["code"]
     if (process.env.ENV == "PROD") {
-        const host = req.host + "/scrapbook"
+        const host = req.headers.host + "/scrapbook"
     } else {
-        const host = req.host
+        const host = req.headers.host
     }
-    console.log(`reqhost ${req.host}`)
+    console.log(`reqheadhost ${req.headers.host}`)
     if (code != undefined) {
         // means github has given us the code to generate an access token with
         axios.post(url, {
