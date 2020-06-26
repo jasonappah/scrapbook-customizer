@@ -33,12 +33,12 @@ module.exports = (req, res) => {
             })
             .catch(function(error) {
                 // res.redirect(200, `${host}/?error=${encodeURIComponent(error)}`);
-                res.status(200).send(`<head><meta http-equiv="Refresh" content="0; URL=${host}/?error=${encodeURIComponent(error)}"></head>`)
+                res.status(200).send(`<head><meta http-equiv="Refresh" content="0; URL=/?error=${encodeURIComponent(error)}"></head>`)
             });
     } else if (Object.keys(req.query).length != 0) {
         // probably means github gave an error
         // res.redirect(200, `${host}/?error=${encodeURIComponent(req.query)}`);
-        res.status(200).send(`<head><meta http-equiv="Refresh" content="0; URL=${host}/?error=${encodeURIComponent(req.query)}"></head>`)
+        res.status(200).send(`<head><meta http-equiv="Refresh" content="0; URL=/?error=${encodeURIComponent(req.query)}"></head>`)
     } else {
         // if we get here, we didn't have any other random URL params, or the code that we need to generate the access token, so we need to get github to give it to us.
         // res.redirect(200, `https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&scope=gist&redirect_uri=${encodeURIComponent(host)}`);
