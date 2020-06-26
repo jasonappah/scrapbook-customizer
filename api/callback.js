@@ -24,7 +24,7 @@ module.exports = (req, res) => {
             })
             .then(function(response) {
                 data = response.data.split("&")
-                var tmp, i
+                var tmp, i, token
                 for (var idx in data) {
                     if (idx.startsWith("access_token")) {
                         i = data.indexOf(idx)
