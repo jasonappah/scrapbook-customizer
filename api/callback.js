@@ -23,7 +23,7 @@ module.exports = (req, res) => {
                 code: code,
             })
             .then(function(response) {
-                token = response["access_token"]
+                token = response.data["access_token"]
                 console.log(response)
 
                 // res.redirect(200, `${host}/?token=${token}`);
