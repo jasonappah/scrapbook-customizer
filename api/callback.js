@@ -7,17 +7,14 @@ module.exports = (req, res) => {
     const url = "https://github.com/login/oauth/access_token"
     const CLIENT_ID = process.env.GH_CLIENT_ID
     const CLIENT_SECRET = process.env.GH_CLIENT_SECRET
-    var host = ""
+    var extra = ""
     axios.defaults.headers.post['Content-Type'] = 'application/json';
     // // this has the url params
     // console.log(req.query)
     const code = req.query["code"]
     if (process.env.ENV == "PROD") {
-        host = req.headers.host + "/scrapbook"
-    } else {
-        host = req.headers.host
+        extra = "/customizer"
     }
-    console.log(`reqheadorigin ${req.headers.host}`)
     if (code != undefined) {
         // means github has given us the code to generate an access token with
         axios.post(url, {
@@ -27,18 +24,19 @@ module.exports = (req, res) => {
             })
             .then(function(response) {
                 token = response["access_token"]
+                console.log(response)
 
                 // res.redirect(200, `${host}/?token=${token}`);
-                res.status(200).send(`<head><meta http-equiv="Refresh" content="0; URL=/?token=${token}"></head>`)
+                res.status(200).send(`<head><meta http-equiv="Refresh" content="0; URL=${extra}/?token=${token}"></head>`)
             })
             .catch(function(error) {
                 // res.redirect(200, `${host}/?error=${encodeURIComponent(error)}`);
-                res.status(200).send(`<head><meta http-equiv="Refresh" content="0; URL=/?error=${encodeURIComponent(error)}"></head>`)
+                res.status(200).send(`<head><meta http-equiv="Refresh" content="0; URL=${extra}/?error=${encodeURIComponent(error)}"></head>`)
             });
     } else if (Object.keys(req.query).length != 0) {
         // probably means github gave an error
         // res.redirect(200, `${host}/?error=${encodeURIComponent(req.query)}`);
-        res.status(200).send(`<head><meta http-equiv="Refresh" content="0; URL=/?error=${encodeURIComponent(req.query)}"></head>`)
+        res.status(200).send(`<head><meta http-equiv="Refresh" content="0; URL=${extra}/?error=${encodeURIComponent(req.query)}"></head>`)
     } else {
         // if we get here, we didn't have any other random URL params, or the code that we need to generate the access token, so we need to get github to give it to us.
         // res.redirect(200, `https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&scope=gist&redirect_uri=${encodeURIComponent(host)}`);
