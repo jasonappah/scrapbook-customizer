@@ -380,7 +380,7 @@
                 token = urlParams.get('token')
                 makeGist()
             } else if (force) {
-                window.location.href = window.location.host + "/api/callback"
+                window.location.href = "/api/callback"
             }
 
             if (urlParams.has('error')) {
