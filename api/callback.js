@@ -16,6 +16,7 @@ module.exports = (req, res) => {
     } else {
         host = req.host
     }
+    console.log(`reqhost ${req.host}`)
     if (code != undefined) {
         // means github has given us the code to generate an access token with
         axios.post(url, {
