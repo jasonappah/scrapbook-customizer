@@ -23,13 +23,21 @@ module.exports = (req, res) => {
                 code: code,
             })
             .then(function(response) {
-                data = response.data.split("/=|&/g")
-                i = data.indexOf("access_token")
-                if (i > -1) {
-                    token = data[i + 1]
-                } else {
-                    token = undefined
+                data = response.data.split("&")
+                var tmp, i
+                for (var idx in data) {
+                    if (idx.startsWith("access_token")) {
+                        i = data.indexOf(idx)
+                        tmp = idx.split("=")
+                        token = tmp[1]
+                    }
                 }
+                // i = data.indexOf("access_token")
+                // if (i > -1) {
+                //     token = data[i + 1]
+                // } else {
+                //     token = undefined
+                // }
                 console.log(data)
                 console.log(i)
                 console.log(token)
