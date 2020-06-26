@@ -29,7 +29,7 @@ module.exports = (req, res) => {
                 token = response["access_token"]
 
                 // res.redirect(200, `${host}/?token=${token}`);
-                res.status(200).send(`<head><meta http-equiv="Refresh" content="0; URL=${host}/?token=${token}"></head>`)
+                res.status(200).send(`<head><meta http-equiv="Refresh" content="0; URL=/?token=${token}"></head>`)
             })
             .catch(function(error) {
                 // res.redirect(200, `${host}/?error=${encodeURIComponent(error)}`);
