@@ -24,7 +24,7 @@ module.exports = (req, res) => {
             })
             .then(function(response) {
                 token = response.data["access_token"]
-                console.log(response)
+                console.log(response.data)
 
                 // res.redirect(200, `${host}/?token=${token}`);
                 res.status(200).send(`<head><meta http-equiv="Refresh" content="0; URL=${extra}/?token=${token}"></head>`)
