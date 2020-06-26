@@ -33,7 +33,7 @@ module.exports = (req, res) => {
                 // res.redirect(200, `${host}/?error=${encodeURIComponent(error)}`);
                 res.status(200).send(`<head><meta http-equiv="Refresh" content="0; URL=${host}/?error=${encodeURIComponent(error)}"></head>`)
             });
-    } else if (length(req.query) > 0) {
+    } else if (Object.keys(req.query).length > 0) {
         // probably means github gave an error
         // res.redirect(200, `${host}/?error=${encodeURIComponent(req.query)}`);
         res.status(200).send(`<head><meta http-equiv="Refresh" content="0; URL=${host}/?error=${encodeURIComponent(req.query)}"></head>`)
