@@ -395,7 +395,7 @@
             console.log("running makegist")
             var url = "https://api.github.com/gists"
             files = {
-                "style.css": getCSS()
+                "style.css": encodeURIComponent(getCSS())
             }
             console.log(files)
             var xhr2 = new XMLHttpRequest();
