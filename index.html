@@ -336,15 +336,17 @@
             }
         });
 
-        try {
-            editor.value = localStorage.getItem("customCSS");
-            myCodeMirror.getDoc().setValue(localStorage.getItem("customCSS"))
-            console.log("Restored stored CSS")
-            editPage(true)
-        } finally {
-            console.log("No stored CSS")
+        window.onload = function() {
+            try {
+                editor.value = localStorage.getItem("customCSS");
+                myCodeMirror.getDoc().setValue(localStorage.getItem("customCSS"))
+                console.log("Restored stored CSS")
+                editPage(true)
+            } catch {
+                console.log("No stored CSS")
+            }
+            authGitHub()
         }
-        authGitHub()
 
         function gistButton() {
             if (token != "") {
@@ -355,24 +357,6 @@
                 authGitHub(true)
             }
         }
-
-        // function gistButton() {
-        //     document.getElementById('m-head-content').innerText = "Uh oh!"
-        //     document.getElementById('m-body-content').innerText = `This feature hasn't been implemented yet. Coming soon!`
-        //     modal.style.display = "block"
-
-        //     // When the user clicks on <span> (x), close the modal
-        //     document.getElementsByClassName("close")[0].onclick = function() {
-        //         modal.style.display = "none";
-        //     }
-
-        //     // When the user clicks anywhere outside of the modal, close it
-        //     window.onclick = function(event) {
-        //         if (event.target == modal) {
-        //             modal.style.display = "none";
-        //         }
-        //     }
-        // }
 
         function authGitHub(force = false) {
             console.log("running authgithub")
