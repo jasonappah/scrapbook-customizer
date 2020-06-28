@@ -404,7 +404,7 @@
             formdata.append("public", true)
             formdata.append("description", "CSS uploaded by scrapbook.hackclub.com/customizer")
             formdata.append("files", files)
-            console.log(formdata.values)
+            console.log(formdata.values())
             var xhr2 = new XMLHttpRequest();
             xhr2.open("POST", url, true);
             xhr2.setRequestHeader('Content-Type', 'application/json');
