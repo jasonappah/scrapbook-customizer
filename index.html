@@ -298,7 +298,9 @@
         </div>
 
     </div>
-
+    <!-- <script type="module">
+        import { Octokit } from "https://cdn.pika.dev/@octokit/rest";
+    </script> -->
     <script>
         var scrappyuser = "jasonaa"
         var url = "https://scrapbook.hackclub.com/" + scrappyuser
@@ -351,6 +353,9 @@
 
         function gistButton() {
             if (token != "") {
+                const octokit = new Octokit({
+                    auth: token,
+                });
                 console.log("makeGist")
                 makeGist()
             } else {
@@ -398,19 +403,28 @@
             console.log("running makegist")
             var url = "https://api.github.com/gists"
             var files = {
-                'style.css': getCSS()
+                'style.css': {
+                    content: getCSS()
+                }
             }
             console.log(files)
-            formdata.append("public", true)
+
+
+            // octokit.gists.create({
+            //     files,
+            //     public: true,
+            //     description: "CSS uploaded by scrapbook.hackclub.com/customizer"
+            // });
+
             var xhr2 = new XMLHttpRequest();
             xhr2.open("POST", url, true);
             xhr2.setRequestHeader('Content-Type', 'application/json');
             xhr2.setRequestHeader('Authorization', `token ${token}`);
-            // xhr2.send(JSON.stringify({
-            //     files: files,
-            //     public: true,
-            //     description: "CSS uploaded by scrapbook.hackclub.com/customizer"
-            // }));
+            xhr2.send(JSON.stringify({
+                files: files,
+                public: true,
+                description: "CSS uploaded by scrapbook.hackclub.com/customizer"
+            }));
             xhr2.send(formdata)
             xhr2.onload = function() {
                 // Request finished. Do processing here.
@@ -444,6 +458,7 @@
                     }
                 }
                 window.history.replaceState(null, null, window.location.pathname);
+                xhr = null
             };
 
         }
