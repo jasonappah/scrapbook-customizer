@@ -156,7 +156,7 @@
             /* Hidden by default */
             position: fixed;
             /* Stay in place */
-            z-index: 1;
+            z-index: 100;
             /* Sit on top */
             left: 0;
             top: 0;
@@ -402,9 +402,6 @@
             }
             console.log(files)
             formdata.append("public", true)
-            formdata.append("description", "CSS uploaded by scrapbook.hackclub.com/customizer")
-            formdata.append("files", files)
-            console.log(formdata.values())
             var xhr2 = new XMLHttpRequest();
             xhr2.open("POST", url, true);
             xhr2.setRequestHeader('Content-Type', 'application/json');
