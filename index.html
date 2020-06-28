@@ -388,15 +388,17 @@
                         modal.style.display = "none";
                     }
                 }
+
+                window.history.replaceState(null, null, window.location.pathname);
             }
         }
 
         function makeGist() {
             console.log("running makegist")
             var url = "https://api.github.com/gists"
-            files = {
-                "style.css": encodeURIComponent(getCSS())
-            }
+            files = JSON.stringify({
+                "style.css": getCSS()
+            })
             console.log(files)
             var xhr2 = new XMLHttpRequest();
             xhr2.open("POST", url, true);
@@ -438,6 +440,7 @@
                         modal.style.display = "none";
                     }
                 }
+                window.history.replaceState(null, null, window.location.pathname);
             };
 
         }
