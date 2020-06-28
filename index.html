@@ -304,6 +304,7 @@
         var url = "https://scrapbook.hackclub.com/" + scrappyuser
         var frame = document.getElementById('iframe');
         var doc, html, gistUrl;
+        var formdata = new FormData()
         var token = ""
         var modal = document.getElementById("myModal");
         newUrl()
@@ -400,10 +401,10 @@
                 'style.css': getCSS()
             }
             console.log(files)
-            var formdata = new FormData()
             formdata.append("public", true)
             formdata.append("description", "CSS uploaded by scrapbook.hackclub.com/customizer")
             formdata.append("files", files)
+            console.log(formdata)
             var xhr2 = new XMLHttpRequest();
             xhr2.open("POST", url, true);
             xhr2.setRequestHeader('Content-Type', 'application/json');
