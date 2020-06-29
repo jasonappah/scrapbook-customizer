@@ -426,10 +426,8 @@
                         content: getCSS()
                     }
                 }
-            }).then(function({
-                data
-            }) {
-                tmp(data)
+            }).then(function() {
+                tmp(this.read())
             });
             // xhr2.onload = tmp()
 
