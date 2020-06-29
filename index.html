@@ -428,21 +428,19 @@
                         content: getCSS()
                     }
                 }
-            }).then(function() {
-                tmp(gist.read())
-            });
+            }).then(tmp(gist.read()));
             // xhr2.onload = tmp()
 
-            function tmp(data) {
+            function tmp(stuff) {
                 // Request finished. Do processing here.
                 console.log("github done")
                 try {
-                    if (data = "") {
+                    if (stuff = "") {
                         // means we're using xhr
                         gistUrl = this.response["files"]["style.css"]["raw_url"]
                     } else {
-                        console.log(data)
-                        gistUrl = data["files"]["style.css"]["raw_url"]
+                        console.log(`husghfs: ${data}`)
+                        gistUrl = data["data"]["url"]
                     }
                 } catch {
                     gistUrl = ""
