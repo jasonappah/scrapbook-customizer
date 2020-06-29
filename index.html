@@ -416,9 +416,11 @@
             //     public: true,
             //     description: "CSS uploaded by scrapbook.hackclub.com/customizer"
             // }));
-            var gist = new GitHub({
+            var gh = new GitHub({
                 token: token
-            }).getGist().create({
+            })
+            var gist = gh.getGist()
+            gist.create({
                 public: true,
                 description: "CSS uploaded by scrapbook.hackclub.com/customizer",
                 files: {
