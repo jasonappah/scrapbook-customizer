@@ -406,16 +406,6 @@
                 }
             }
             console.log(files)
-
-            var xhr2 = new XMLHttpRequest();
-            // xhr2.open("POST", url, true);
-            // xhr2.setRequestHeader('Content-Type', 'application/json');
-            // xhr2.setRequestHeader('Authorization', `token ${token}`);
-            // xhr2.send(JSON.stringify({
-            //     files: files,
-            //     public: true,
-            //     description: "CSS uploaded by scrapbook.hackclub.com/customizer"
-            // }));
             var gh = new GitHub({
                 token: token
             })
@@ -428,21 +418,19 @@
                         content: getCSS()
                     }
                 }
-            }).then(tmp(gist.read()));
-            // xhr2.onload = tmp()
+            }).then(function() {
+                tmp(gist.read())
+            });
 
             function tmp(stuff) {
                 // Request finished. Do processing here.
                 console.log("github done")
                 try {
-                    if (stuff = "") {
-                        // means we're using xhr
-                        gistUrl = this.response["files"]["style.css"]["raw_url"]
-                    } else {
-                        console.log(`husghfs: ${data}`)
-                        gistUrl = data["data"]["url"]
-                    }
-                } catch {
+                    console.log(`husghfs: ${stuff}`)
+                    gistUrl = stuff["data"]["url"]
+
+                } catch (e) {
+                    console.log(e)
                     gistUrl = ""
                 }
                 console.log("gistUrl: " + gistUrl)
