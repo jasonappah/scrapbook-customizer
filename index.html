@@ -399,7 +399,6 @@
 
         function makeGist() {
             console.log("running makegist")
-            var url = "https://api.github.com/gists"
             var files = {
                 'style.css': {
                     content: getCSS()
@@ -418,9 +417,7 @@
                         content: getCSS()
                     }
                 }
-            }).then(function() {
-                tmp(gist.read())
-            });
+            }, tmp(gist.read()))
 
             function tmp(stuff) {
                 // Request finished. Do processing here.
