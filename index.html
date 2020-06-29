@@ -298,9 +298,7 @@
         </div>
 
     </div>
-    <!-- <script type="module">
-        import { Octokit } from "https://cdn.pika.dev/@octokit/rest";
-    </script> -->
+    <script src="https://unpkg.com/github-api/dist/GitHub.bundle.min.js"></script>
     <script>
         var scrappyuser = "jasonaa"
         var url = "https://scrapbook.hackclub.com/" + scrappyuser
@@ -409,28 +407,47 @@
             }
             console.log(files)
 
-
-            // octokit.gists.create({
-            //     files,
+            var xhr2 = new XMLHttpRequest();
+            // xhr2.open("POST", url, true);
+            // xhr2.setRequestHeader('Content-Type', 'application/json');
+            // xhr2.setRequestHeader('Authorization', `token ${token}`);
+            // xhr2.send(JSON.stringify({
+            //     files: files,
             //     public: true,
             //     description: "CSS uploaded by scrapbook.hackclub.com/customizer"
-            // });
-
-            var xhr2 = new XMLHttpRequest();
-            xhr2.open("POST", url, true);
-            xhr2.setRequestHeader('Content-Type', 'application/json');
-            xhr2.setRequestHeader('Authorization', `token ${token}`);
-            xhr2.send(JSON.stringify({
-                files: files,
+            // }));
+            var gist = new GitHub({
+                token: token
+            }).getGist().create({
                 public: true,
-                description: "CSS uploaded by scrapbook.hackclub.com/customizer"
+                description: "CSS uploaded by scrapbook.hackclub.com/customizer",
+                files: {
+                    "style.css": {
+                        content: getCSS()
+                    }
+                }
+            }).then(function({
+                data
+            }) {
+                // Promises!
+                let createdGist = data;
+                return gist.read();
+            }).then(tmp({
+                data
             }));
-            xhr2.send(formdata)
-            xhr2.onload = function() {
+            // xhr2.onload = tmp()
+
+            function tmp(data = "") {
                 // Request finished. Do processing here.
-                console.log("xhr2 done")
+                console.log("github done")
                 try {
-                    gistUrl = this.response["files"]["style.css"]["raw_url"]
+                    if (data = "") {
+                        // means we're using xhr
+                        gistUrl = this.response["files"]["style.css"]["raw_url"]
+                    } else {
+                        console.log(data)
+                        gistUrl = data["files"]["style.css"]["raw_url"]
+                    }
                 } catch {
                     gistUrl = ""
                 }
@@ -459,8 +476,7 @@
                 }
                 window.history.replaceState(null, null, window.location.pathname);
                 xhr = null
-            };
-
+            }
         }
 
         function newUrl() {
