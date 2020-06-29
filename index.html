@@ -429,12 +429,8 @@
             }).then(function({
                 data
             }) {
-                // Promises!
-                let createdGist = data;
-                return gist.read();
-            }).then(tmp({
-                data
-            }));
+                tmp(data)
+            });
             // xhr2.onload = tmp()
 
             function tmp(data = "") {
