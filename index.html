@@ -268,7 +268,7 @@
             <h3>Go</h3>
         </div>
         <div class="head sechead3" onclick="gistButton()">
-            <h5>Add to Gist (beta?)</h5>
+            <h5>Add to Gist</h5>
         </div>
     </div>
 
@@ -449,7 +449,7 @@
                     document.getElementById('m-body-content').innerText = `We were unable to create the gist. Response: ${this.response}`
                 } else {
                     document.getElementById('m-head-content').innerText = "Successfully created gist"
-                    document.getElementById('m-body-content').innerText = `The gist URL is <a href="${gistUrl}">${gistUrl}</a>!`
+                    document.getElementById('m-body-content').innerHTML = `The gist URL is <a href="${gistUrl}">${gistUrl}</a>!`
                 }
                 modal.style.display = "block"
 
