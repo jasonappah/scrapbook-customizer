@@ -428,7 +428,7 @@
                 // Request finished. Do processing here.
 
                 try {
-                    var gistUrl = stuff["url"]
+                    var gistUrl = stuff["files"][0]["raw_url"]
 
                 } catch (e) {
                     var gistUrl = ""
@@ -440,8 +440,8 @@
                     document.getElementById('m-head-content').innerText = "Uh oh!"
                     document.getElementById('m-body-content').innerText = `We were unable to create the gist. Response: ${this.response}`
                 } else {
-                    document.getElementById('m-head-content').innerText = "Successfully created gist"
-                    document.getElementById('m-body-content').innerHTML = `The gist URL is <a href="${gistUrl}">${gistUrl}</a>!`
+                    document.getElementById('m-head-content').innerText = "Successfully created gist!"
+                    document.getElementById('m-body-content').innerHTML = `The gist URL is <a href="${gistUrl}">${gistUrl}</a>. Now hop over to the #scrapbook-css channel in Slack and paste the link into a new message to apply it to your scrapbook!`
                 }
                 modal.style.display = "block"
 
