@@ -206,7 +206,7 @@
         
         .modal-header {
             padding: 2px 16px;
-            background-color: #5cb85c;
+            background-color: #00c1fb;
             color: white;
         }
         
@@ -333,7 +333,6 @@
                 event.preventDefault();
                 document.getElementById("scrappyuser").value = document.getElementById("scrappyuser").value.trim()
                 newUrl();
-                console.log("pressed enter")
             }
         });
 
@@ -354,10 +353,8 @@
                 const octokit = new Octokit({
                     auth: token,
                 });
-                console.log("makeGist")
                 makeGist()
             } else {
-                console.log("authGitHub")
                 authGitHub(true)
             }
         }
@@ -368,15 +365,12 @@
             console.log(urlParams)
             if (urlParams.has('token')) {
                 token = urlParams.get('token')
-                console.log("token: " + token)
                 makeGist()
             } else if (force) {
-                console.log("force")
                 window.location.href = "/customizer/api/callback"
             }
 
             if (urlParams.has('error')) {
-                console.log("error")
                 document.getElementById('m-head-content').innerText = "Something went wrong!"
                 document.getElementById('m-body-content').innerText = error
                 modal.style.display = "block"
@@ -432,13 +426,11 @@
 
             function tmp(stuff) {
                 // Request finished. Do processing here.
-                console.log("github done")
+
                 try {
-                    console.log(stuff)
                     var gistUrl = stuff["url"]
 
                 } catch (e) {
-                    console.log(e)
                     var gistUrl = ""
                 }
                 console.log("gistUrl: " + gistUrl)
