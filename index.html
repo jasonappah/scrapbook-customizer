@@ -303,7 +303,7 @@
         var scrappyuser = "jasonaa"
         var url = "https://scrapbook.hackclub.com/" + scrappyuser
         var frame = document.getElementById('iframe');
-        var doc, html, gistUrl;
+        var doc, html;
         var formdata = new FormData()
         var token = ""
         var modal = document.getElementById("myModal");
@@ -417,18 +417,29 @@
                         content: getCSS()
                     }
                 }
-            }, tmp(gist.read()))
+            }).then(function({
+                data
+            }) {
+                // Promises!
+                let createdGist = data;
+                return gist.read();
+            }).then(function({
+                data
+            }) {
+                let retrievedGist = data;
+                tmp(data)
+            });
 
             function tmp(stuff) {
                 // Request finished. Do processing here.
                 console.log("github done")
                 try {
                     console.log(`husghfs: ${stuff}`)
-                    gistUrl = stuff["data"]["url"]
+                    var gistUrl = stuff["data"]["url"]
 
                 } catch (e) {
                     console.log(e)
-                    gistUrl = ""
+                    var gistUrl = ""
                 }
                 console.log("gistUrl: " + gistUrl)
 
