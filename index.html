@@ -344,7 +344,7 @@
                 editor.value = localStorage.getItem("customCSS");
                 myCodeMirror.getDoc().setValue(localStorage.getItem("customCSS"))
                 console.log("Restored stored CSS")
-                editPage(true)
+                editPage()
             } catch {
                 console.log("No stored CSS")
             }
@@ -431,10 +431,12 @@
                 // Request finished. Do processing here.
 
                 try {
-                    var gistUrl = stuff["files"][0]["raw_url"]
+                    var gistUrl = stuff["files"]["style.css"]["raw_url"]
 
                 } catch (e) {
                     var gistUrl = ""
+                    console.error(e)
+                    console.log(stuff)
                 }
                 console.log("gistUrl: " + gistUrl)
 
@@ -480,13 +482,11 @@
             return myCodeMirror.getValue() || editor.value
         }
 
-        function editPage(firstLoad = false) {
+        function editPage() {
             css = getCSS()
-            if (!firstLoad) {
-                if (typeof(Storage) !== "undefined") {
-                    // Code for localStorage/sessionStorage.
-                    localStorage.setItem("customCSS", css);
-                }
+            if (typeof(Storage) !== "undefined") {
+                // Code for localStorage/sessionStorage.
+                localStorage.setItem("customCSS", css);
             }
             doc.body.innerHTML = html + `<style>${css}</style>`;
         }
